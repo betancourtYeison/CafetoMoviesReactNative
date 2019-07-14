@@ -1,9 +1,15 @@
-import { SET_MOVIES, SET_RATING, CLEAN_MOVIES } from './types'
+import { SET_MOVIES, SET_SELECTED_YEAR, SET_RATING, CLEAN_MOVIES } from './types'
 import { createAction } from 'redux-actions'
 
 export const setMoviesAction = createAction(SET_MOVIES, data => {
   return {
     data,
+  }
+})
+
+export const setSelectedYearAction = createAction(SET_SELECTED_YEAR, selectedYear => {
+  return {
+    selectedYear,
   }
 })
 

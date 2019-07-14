@@ -160,6 +160,7 @@ export default class SliderImages extends Component {
    * @memberof SliderImages
    */
   componentWillMount() {
+    this.props.onRef(this)
     let release = (e, gestureState) => {
       const heightWidth = this.props.horizontal ? this.state.width : this.state.height
       const relativeDistance = (this.props.horizontal ? gestureState.dx : gestureState.dy) / heightWidth
@@ -199,6 +200,7 @@ export default class SliderImages extends Component {
    * @memberof SliderImages
    */
   componentWillUnmount() {
+    this.props.onRef(undefined)
     clearInterval(this._interval)
   }
 

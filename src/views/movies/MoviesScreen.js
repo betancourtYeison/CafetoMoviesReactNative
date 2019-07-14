@@ -11,7 +11,7 @@ import StringsMoviesScreen from './strings'
 import styles from './style'
 
 /** Import actions **/
-import { setMoviesAction, setRatingAction } from '../../actions/movies'
+import { setMoviesAction, setSelectedYearAction, setRatingAction } from '../../actions/movies'
 
 /** Import components **/
 import Loader from '../../components/loader/Loader'
@@ -64,11 +64,17 @@ class MoviesScreen extends React.Component {
   _getMovies = () => {
     this.loader.openLoader(async () => {
       let { selectedYear } = this.state
-      let data = await apiGet(
-        `${URLMOVIEDB}/discover/movie?primary_release_year=${selectedYear}&sort_by=release_date.asc&api_key=${APIKEY}&language=es`
-      )()
-      this.props.setMoviesAction({ ...data, selectedYear })
-      this.loader.closeLoader()
+      let data = null
+      if (!this.props.movies[selectedYear]) {
+        data = await apiGet(
+          `${URLMOVIEDB}/discover/movie?primary_release_year=${selectedYear}&sort_by=release_date.asc&api_key=${APIKEY}&language=es`
+        )()
+        this.props.setMoviesAction({ ...data, selectedYear })
+        this.loader.closeLoader(() => this.sliderImages._move(0))
+      } else {
+        this.props.setSelectedYearAction(selectedYear)
+        this.loader.closeLoader(() => this.sliderImages._move(0))
+      }
     })
   }
 
@@ -123,8 +129,9 @@ class MoviesScreen extends React.Component {
         </TouchableOpacity>
         <View style={styles.containerSlider}>
           <SliderImages
+            onRef={ref => (this.sliderImages = ref)}
             horizontal={true}
-            dataSource={this.props.movies.results}
+            dataSource={this.props.movies[this.props.movies.selectedYear]}
             titleStyle={styles.titleStyle}
             setRating={this._setRating}
           />
@@ -134,7 +141,7 @@ class MoviesScreen extends React.Component {
   }
 }
 
-const mapDispatchToProps = { setMoviesAction, setRatingAction }
+const mapDispatchToProps = { setMoviesAction, setSelectedYearAction, setRatingAction }
 
 const mapStateToProps = state => ({
   movies: state.movies,
