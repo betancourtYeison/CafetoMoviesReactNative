@@ -137,6 +137,7 @@ export class YearPicker extends Component {
                     style={styles.picker}
                     selectedValue={this.state.selectedYear}
                     onValueChange={(itemValue, itemIndex) => this.setState({ selectedYear: itemValue })}
+                    mode="dropdown"
                   >
                     {this._renderPickerItems(this.state.years)}
                   </Picker>
