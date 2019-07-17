@@ -49,28 +49,20 @@ class ReduxNavigation extends Component {
    */
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      const { nav } = this.props
-      const { index, routes } = nav
-      const route = routes[index]
-      if (route.routeName === Routes.moviesScreen) {
-        Alert.alert(
-          StringsConstants.exitApp,
-          StringsConstants.exitAppMessage,
-          [
-            {
-              text: StringsConstants.cancel,
-              onPress: () => {},
-              style: 'cancel',
-            },
-            { text: StringsConstants.yes, onPress: () => BackHandler.exitApp() },
-          ],
-          { cancelable: false }
-        )
-        return true
-      } else {
-        this.props.backNavigationAction()
-        return false
-      }
+      Alert.alert(
+        StringsConstants.exitApp,
+        StringsConstants.exitAppMessage,
+        [
+          {
+            text: StringsConstants.cancel,
+            onPress: () => {},
+            style: 'cancel',
+          },
+          { text: StringsConstants.yes, onPress: () => BackHandler.exitApp() },
+        ],
+        { cancelable: false }
+      )
+      return true
     })
   }
 
