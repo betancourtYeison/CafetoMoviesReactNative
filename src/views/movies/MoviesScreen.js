@@ -105,7 +105,9 @@ class MoviesScreen extends React.Component {
    * @memberof MoviesScreen
    */
   _setRating = (movie, rating) => {
-    this.props.setRatingAction(movie, rating)
+    if(this.props.movies && this.props.movies.selectedYear){
+      this.props.setRatingAction(movie, rating)
+    }
   }
 
   /**
